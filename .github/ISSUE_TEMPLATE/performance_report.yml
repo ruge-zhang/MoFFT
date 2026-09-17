@@ -1,0 +1,26 @@
+name: Performance report
+description: Report a reproducible performance regression or result
+title: "[Performance]: "
+labels: [performance]
+body:
+  - type: textarea
+    id: result
+    attributes:
+      label: Result
+      description: Describe the regression or improvement and the comparison baseline.
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Measurement protocol
+      description: State whether the run was exclusive/formal, sample count, timing boundary, load, thermal state, and FFTW version.
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Raw artifacts
+      description: Attach JSON/CSV, profile, manifest hashes, and exact commands.
+    validations:
+      required: true

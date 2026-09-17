@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use MoFFT, please cite this software release."
+title: "MoFFT: Matrix-oriented FFT optimization for Arm SME CPUs"
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Ruge
+repository-code: "https://github.com/ruge-zhang/MoFFT"
+license: Apache-2.0
+version: 0.4.0
+date-released: 2026-08-25

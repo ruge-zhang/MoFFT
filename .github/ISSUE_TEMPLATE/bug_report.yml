@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a numerical, compiler, build, or runtime defect
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include the FFT length, precision, direction, placement, commands, and smallest reproducer.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Apple model, macOS/Xcode versions, profile name/hash, and relevant CMake options.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or artifacts
+      description: Attach compiler manifests or raw non-sensitive output. Do not include secrets.

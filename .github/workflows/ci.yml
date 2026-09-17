@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  compiler-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install compiler package
+        run: python -m pip install -e .
+      - name: Validate Python sources
+        run: python -m py_compile compiler/mofft_compiler/*.py tools/*.py
+      - name: Run compiler tests
+        run: python -m unittest discover -s tests -p 'test_compiler.py'
+      - name: Validate repository JSON
+        run: python -m json.tool profiles/apple-m5-bootstrap.json >/dev/null

@@ -1,0 +1,30 @@
+{
+  "schema_version": 3,
+  "name": "apple-m5-bootstrap",
+  "architecture": "arm64-apple-macos+sme2",
+  "streaming_vector_bits": 512,
+  "measured": false,
+  "cost_unit": "normalized-time",
+  "source": "Non-measured bootstrap profile for compiler testing. Replace with a local mofft-calibrate profile before interpreting performance.",
+  "memory_hierarchy": {
+    "cache_line_bytes": 128,
+    "levels": {
+      "l1d": {"capacity_bytes": 131072, "read_bandwidth_bytes_per_cost_unit": 113.4, "write_bandwidth_bytes_per_cost_unit": 113.9, "latency_cost": 4.0, "inferred": true},
+      "l2": {"capacity_bytes": 16777216, "read_bandwidth_bytes_per_cost_unit": 112.7, "write_bandwidth_bytes_per_cost_unit": 73.5, "latency_cost": 16.0, "inferred": true},
+      "dram": {"capacity_bytes": 4611686018427387904, "read_bandwidth_bytes_per_cost_unit": 67.3, "write_bandwidth_bytes_per_cost_unit": 73.5, "latency_cost": 100.0, "inferred": true}
+    }
+  },
+  "instructions": {
+    "fmopa": {"throughput": 4.0, "latency": 1.0, "saturation_ilp": 4, "resource": "matrix", "inferred": true},
+    "sme2_fmla_vg2": {"throughput": 2.0, "latency": 2.0, "saturation_ilp": 4, "resource": "matrix-fmla", "inferred": true},
+    "sme2_fmla_vg4": {"throughput": 2.0, "latency": 2.0, "saturation_ilp": 4, "resource": "matrix-fmla", "inferred": true},
+    "sve_add": {"throughput": 0.25, "latency": 4.0, "saturation_ilp": 1, "resource": "vector", "inferred": true},
+    "sve_fmla": {"throughput": 0.25, "latency": 4.0, "saturation_ilp": 1, "resource": "vector", "inferred": true},
+    "sve_load": {"throughput": 1.0, "latency": 4.0, "saturation_ilp": 4, "resource": "load", "inferred": true},
+    "sve_store": {"throughput": 1.0, "latency": 4.0, "saturation_ilp": 4, "resource": "store", "inferred": true},
+    "za_extract": {"throughput": 1.0, "latency": 3.0, "saturation_ilp": 3, "resource": "za-transfer", "inferred": true},
+    "za_extract_vg2": {"throughput": 1.0, "latency": 3.0, "saturation_ilp": 3, "resource": "za-transfer", "inferred": true},
+    "za_extract_vg4": {"throughput": 1.0, "latency": 3.0, "saturation_ilp": 3, "resource": "za-transfer", "inferred": true},
+    "smstart_stop": {"throughput": 0.05, "latency": 20.0, "saturation_ilp": 1, "resource": "streaming-state", "inferred": true}
+  }
+}

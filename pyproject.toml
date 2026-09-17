@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mofft-compiler"
+version = "0.4.0"
+description = "Matrix-oriented FFT kernel compiler for Arm SME"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Ruge Zhang"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: MacOS :: MacOS X",
+  "Programming Language :: C",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Homepage = "https://github.com/ruge-zhang/MoFFT"
+Repository = "https://github.com/ruge-zhang/MoFFT.git"
+Issues = "https://github.com/ruge-zhang/MoFFT/issues"
+
+[project.scripts]
+mofft-generate = "mofft_compiler.cli:generate_main"
+mofft-inspect = "mofft_compiler.cli:inspect_main"
+mofft-calibrate = "mofft_compiler.calibrate:main"
+mofft-validate-candidates = "mofft_compiler.validate:main"
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.8"]
+
+[tool.setuptools]
+package-dir = {"" = "compiler"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
