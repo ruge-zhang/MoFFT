@@ -3,11 +3,13 @@
 [![CI](https://github.com/ruge-zhang/MoFFT/actions/workflows/ci.yml/badge.svg)](https://github.com/ruge-zhang/MoFFT/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
-MoFFT is a matrix-oriented complex FFT library and kernel compiler for Arm SME
+MoFFT is a matrix-oriented FFT library and kernel compiler for Arm SME/SME2
 CPUs. It supports FP32 and FP64 C2C transforms, forward and backward
-directions, and in-place and out-of-place execution. MoFFT builds on the
-outer-product FFT approach introduced in
-[OpenFFT-SME](https://doi.org/10.1109/IPDPS57955.2024.00088).
+directions, and in-place and out-of-place execution.
+
+This repository provides the implementation of
+[MoFFT: Matrix-Oriented FFT Optimization Leveraging Outer-Product Operations on ARM SME CPUs](https://ieeexplore.ieee.org/abstract/document/11706712),
+published in *IEEE Transactions on Parallel and Distributed Systems (TPDS)*.
 
 The compiler enumerates equivalent butterfly expressions, represents them with
 a typed target-independent DAG, ranks them with a target profile, schedules the
@@ -283,6 +285,33 @@ the source tree. FFTW is optional for normal builds and is enabled with
 `-DMOFFT_WITH_FFTW=ON`. FFTW is obtained separately under its own license.
 Anyone redistributing an FFTW-linked binary must comply with the applicable
 FFTW license terms.
+
+## 📖 Citation
+
+If you use MoFFT in your research, please cite our papers:
+
+```bibtex
+@article{zhang2026mofft,
+  author  = {Ruge Zhang and Haipeng Jia and Xiang Zhao and Yunquan Zhang and Zhihao Li and Yibo Wang},
+  title   = {{MoFFT}: Matrix-Oriented {FFT} Optimization Leveraging Outer-Product Operations on {ARM SME CPUs}},
+  journal = {IEEE Transactions on Parallel and Distributed Systems},
+  year    = {2026},
+  pages   = {1--18},
+  doi     = {10.1109/TPDS.2026.3737077},
+  url     = {https://ieeexplore.ieee.org/document/11706712}
+}
+
+@inproceedings{zhang2024openfftsme,
+  author    = {Ruge Zhang and Haipeng Jia and Yunquan Zhang and Baicheng Yan and Penghao Ma and Long Wang and Wenxuan Zhao},
+  title     = {{OpenFFT-SME}: An Efficient Outer Product Pattern {FFT} Library on {ARM SME CPUs}},
+  booktitle = {2024 IEEE International Parallel and Distributed Processing Symposium (IPDPS)},
+  year      = {2024},
+  pages     = {938--949},
+  publisher = {IEEE},
+  doi       = {10.1109/IPDPS57955.2024.00088},
+  url       = {https://ieeexplore.ieee.org/document/10579263}
+}
+```
 
 ## Source provenance
 
