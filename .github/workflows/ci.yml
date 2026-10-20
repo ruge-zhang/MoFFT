@@ -26,5 +26,9 @@ jobs:
         run: python -m py_compile compiler/mofft_compiler/*.py tools/*.py
       - name: Run compiler tests
         run: python -m unittest discover -s tests -p 'test_compiler.py'
+      - name: Validate precompiled kernel portfolio
+        run: python -m unittest discover -s tests -p 'test_portfolio.py'
+      - name: Validate frozen plan recipes
+        run: python -m unittest discover -s tests -p 'test_binary_workflow.py'
       - name: Validate repository JSON
         run: python -m json.tool profiles/apple-m5-bootstrap.json >/dev/null

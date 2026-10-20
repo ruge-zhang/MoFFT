@@ -539,7 +539,7 @@ def _emit_registry(radices: tuple[int, ...],
                     continue
                 cond = (f"{var} > {lo} && {var} <= {hi}" if hi is not None
                         else f"{var} > {lo}")
-                branches.append(f"if ({cond}) {name}_{rbucket}({arguments})")
+                branches.append(f"if ({cond}) {name}_{rbucket}({arguments});")
             return (" else ".join(branches)
                     + f" else {name}({arguments});")
         if small and medium:

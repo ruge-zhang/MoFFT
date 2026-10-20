@@ -50,15 +50,19 @@ def load_entries(path: Path | None) -> tuple[list[dict], bool, str]:
         stage_layout = entry.get("stage_layout", "transpose")
         if stage_layout not in {"transpose", "section"}:
             raise ValueError(f"invalid stage layout {stage_layout!r}")
+        kernel_bank = entry.get("kernel_bank", 0)
+        if isinstance(kernel_bank, bool) or not isinstance(kernel_bank, int) or not 0 <= kernel_bank <= 3:
+            raise ValueError("kernel_bank must be an integer from 0 to 3")
         normalized.append({"length": length, "precision": precision,
                            "factors": factors,
                            "transpose_mask": transpose_mask,
                            "direct_input": int(direct_input),
-                           "stage_layout": int(stage_layout == "section")})
+                           "stage_layout": int(stage_layout == "section"),
+                           "kernel_bank": kernel_bank})
     normalized.sort(key=lambda value: (value["length"], value["precision"]))
-    # Generated sources and benchmark output may be shared.  Record only the
-    # input filename so they do not disclose the build host's home directory.
-    return normalized, bool(payload.get("formal_measurement")), path.name
+    # Even a basename can reveal a person's name or unpublished experiment.
+    # The package build ID identifies the input set without exposing its label.
+    return normalized, bool(payload.get("formal_measurement")), "embedded-plan-wisdom"
 
 
 def main() -> None:
@@ -99,7 +103,8 @@ size_t mofft_generated_wisdom_lookup(size_t length, int precision_bits,
                                      int *radices, size_t capacity,
                                      uint64_t *blocked_transpose_mask,
                                      int *direct_input,
-                                     int *stage_layout);
+                                     int *stage_layout,
+                                     unsigned int *kernel_bank);
 int mofft_generated_wisdom_is_formal(void);
 const char *mofft_generated_wisdom_source(void);
 #endif
@@ -111,7 +116,8 @@ const char *mofft_generated_wisdom_source(void);
         "                                     int *radices, size_t capacity,",
         "                                     uint64_t *blocked_transpose_mask,",
         "                                     int *direct_input,",
-        "                                     int *stage_layout) {",
+        "                                     int *stage_layout,",
+        "                                     unsigned int *kernel_bank) {",
     ]
     for entry in entries:
         factors = entry["factors"]
@@ -125,6 +131,7 @@ const char *mofft_generated_wisdom_source(void);
             f"    *blocked_transpose_mask = UINT64_C({entry['transpose_mask']});")
         lines.append(f"    *direct_input = {entry['direct_input']};")
         lines.append(f"    *stage_layout = {entry['stage_layout']};")
+        lines.append(f"    *kernel_bank = {entry['kernel_bank']}u;")
         lines.append(f"    return {len(factors)}u;")
         lines.append("  }")
     lines.extend([
@@ -132,6 +139,7 @@ const char *mofft_generated_wisdom_source(void);
         "  (void)blocked_transpose_mask;",
         "  (void)direct_input;",
         "  (void)stage_layout;",
+        "  (void)kernel_bank;",
         "  return 0;",
         "}",
         "",

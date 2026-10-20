@@ -592,6 +592,7 @@ class EmissionTests(unittest.TestCase):
         self.assertIn("input_repeat <= 4096", registry)
         self.assertIn("tw_repeat > 32 && tw_repeat <= 256", registry)
         self.assertIn("tw_repeat <= 4096", registry)
+        self.assertNotIn("batch) else", registry)
         self.assertIn("mofft_kernel_r8_fp64_fwd_other_"
                       "direct_broadcast_rmedium", registry)
         self.assertIn("mofft_kernel_r8_fp64_fwd_other_"

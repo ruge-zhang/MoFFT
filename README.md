@@ -18,6 +18,25 @@ a typed target-independent DAG, ranks them with a target profile, schedules the
 selected operations, and lowers them to Arm SME/SME2 ACLE intrinsics. The
 runtime combines the generated radix kernels into complete FFT plans.
 
+## Prebuilt library and simple C API
+
+The native macOS arm64 SDK workflow packages a static library, public header,
+relocatable CMake target, and a buildable plain-C example. Consumers do not need
+Python or kernel generation. The FFTW-inspired plan/execute/destroy API supports
+FP32 and FP64 with two planning policies:
+
+- `MOFFT_FLAG_PRETUNED`: use an embedded plan case, or the analytical planner
+  for an uncovered length. All kernels are already compiled.
+- `MOFFT_FLAG_MEASURE`: measure a bounded search over the linked kernels and
+  decompositions at plan creation, then reuse the resulting plan.
+
+Selected plans can be explicitly exported and imported on the same library
+build and CPU family. There is no implicit filesystem cache. See
+[Binary distribution and planning policies](docs/BINARY_DISTRIBUTION.md) for
+linking, strict preset cases, local tuning, saved plans and package production.
+This interface is not an FFTW ABI replacement. Local workflow-preview packages
+must not be confused with a fully tuned release or historical paper binaries.
+
 ## Overall performance on Apple M4 and M5
 
 ![MoFFT versus FFTW 3.3.11 on Apple M4 and M5](assets/overall-m4-m5.png)
