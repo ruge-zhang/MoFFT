@@ -145,3 +145,9 @@ menuToggle.addEventListener("click", () => {
 });
 nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(); });
+
+const installationDetails = document.getElementById("package-installation");
+document.querySelectorAll('a[href="#package-installation"]').forEach((link) => {
+  link.addEventListener("click", () => { installationDetails.open = true; });
+});
+if (window.location.hash === "#package-installation") installationDetails.open = true;
