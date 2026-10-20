@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use MoFFT, please cite this software release."
+message: "If you use MoFFT, please cite the journal article in preferred-citation."
 title: "MoFFT: Matrix-oriented FFT optimization for Arm SME CPUs"
 type: software
 authors:
@@ -9,3 +9,29 @@ repository-code: "https://github.com/ruge-zhang/MoFFT"
 license: Apache-2.0
 version: 0.4.0
 date-released: 2026-08-25
+url: "https://ruge-zhang.github.io/MoFFT/"
+preferred-citation:
+  type: article
+  title: "MoFFT: Matrix-Oriented FFT Optimization Leveraging Outer-Product Operations on ARM SME CPUs"
+  authors:
+    - family-names: Zhang
+      given-names: Ruge
+    - family-names: Jia
+      given-names: Haipeng
+    - family-names: Zhao
+      given-names: Xiang
+    - family-names: Zhang
+      given-names: Yunquan
+    - family-names: Li
+      given-names: Zhihao
+    - family-names: Wang
+      given-names: Yibo
+  journal: "IEEE Transactions on Parallel and Distributed Systems"
+  year: 2026
+  month: 12
+  volume: "37"
+  issue: "12"
+  start: "2659"
+  end: "2675"
+  doi: "10.1109/TPDS.2026.3737077"
+  url: "https://ieeexplore.ieee.org/document/11706712"

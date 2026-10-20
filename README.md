@@ -3,13 +3,16 @@
 [![CI](https://github.com/ruge-zhang/MoFFT/actions/workflows/ci.yml/badge.svg)](https://github.com/ruge-zhang/MoFFT/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
+**Website:** [ruge-zhang.github.io/MoFFT](https://ruge-zhang.github.io/MoFFT/)
+
 MoFFT is a matrix-oriented FFT library and kernel compiler for Arm SME/SME2
 CPUs. It supports FP32 and FP64 C2C transforms, forward and backward
 directions, and in-place and out-of-place execution.
 
 This repository provides the implementation of
-[MoFFT: Matrix-Oriented FFT Optimization Leveraging Outer-Product Operations on ARM SME CPUs](https://ieeexplore.ieee.org/abstract/document/11706712),
-published in *IEEE Transactions on Parallel and Distributed Systems (TPDS)*.
+[MoFFT: Matrix-Oriented FFT Optimization Leveraging Outer-Product Operations on ARM SME CPUs](https://ieeexplore.ieee.org/document/11706712),
+published in *IEEE Transactions on Parallel and Distributed Systems (TPDS)*,
+vol. 37, no. 12, pp. 2659–2675, December 2026.
 
 The compiler enumerates equivalent butterfly expressions, represents them with
 a typed target-independent DAG, ranks them with a target profile, schedules the
@@ -290,13 +293,19 @@ FFTW license terms.
 
 If you use MoFFT in your research, please cite our papers:
 
+The MoFFT citation below uses the final journal volume, issue, and page numbers
+from [IEEE Xplore](https://ieeexplore.ieee.org/document/11706712).
+
 ```bibtex
 @article{zhang2026mofft,
   author  = {Ruge Zhang and Haipeng Jia and Xiang Zhao and Yunquan Zhang and Zhihao Li and Yibo Wang},
   title   = {{MoFFT}: Matrix-Oriented {FFT} Optimization Leveraging Outer-Product Operations on {ARM SME CPUs}},
   journal = {IEEE Transactions on Parallel and Distributed Systems},
   year    = {2026},
-  pages   = {1--18},
+  volume  = {37},
+  number  = {12},
+  pages   = {2659--2675},
+  month   = dec,
   doi     = {10.1109/TPDS.2026.3737077},
   url     = {https://ieeexplore.ieee.org/document/11706712}
 }
