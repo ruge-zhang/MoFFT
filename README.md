@@ -2,8 +2,7 @@
 
 [![CI](https://github.com/ruge-zhang/MoFFT/actions/workflows/ci.yml/badge.svg)](https://github.com/ruge-zhang/MoFFT/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-
-**Website:** [ruge-zhang.github.io/MoFFT](https://ruge-zhang.github.io/MoFFT/)
+[![Website](https://img.shields.io/badge/Website-Homepage-173c35)](https://ruge-zhang.github.io/MoFFT/)
 
 MoFFT is a matrix-oriented FFT library and kernel compiler for Arm SME/SME2
 CPUs. It supports FP32 and FP64 C2C transforms, forward and backward
