@@ -84,7 +84,7 @@
           <div class="download-card-top"><span class="small-label">PRIMARY DISTRIBUTION</span><span class="download-mark" aria-hidden="true">01</span></div>
           <h3>Source package</h3>
           <p>A ready-to-build C/ACLE library with generated kernels included. Consumers do not need Python, kernel generation, or target calibration.</p>
-          <dl class="download-facts"><div><dt>Release</dt><dd>0.4.0-preview.1</dd></div><div><dt>Archive</dt><dd>Source · .tar.gz</dd></div><div><dt>Asset size</dt><dd><a href="https://github.com/ruge-zhang/MoFFT/releases/tag/v0.4.0-preview.1" target="_blank" rel="noopener noreferrer">See GitHub Release ↗</a></dd></div></dl>
+          <dl class="download-facts"><div><dt>Release</dt><dd>0.4.0-preview.1</dd></div><div><dt>Archive</dt><dd>Source · .tar.gz</dd></div><div><dt>Asset size</dt><dd>5.1 MiB</dd></div></dl>
           <div class="download-actions"><a class="button button-dark" href="https://github.com/ruge-zhang/MoFFT/releases/download/v0.4.0-preview.1/mofft-0.4.0-preview.1.tar.gz" target="_blank" rel="noopener noreferrer">Download source <span aria-hidden="true">↓</span></a><a class="checksum-link" href="https://github.com/ruge-zhang/MoFFT/releases/download/v0.4.0-preview.1/mofft-0.4.0-preview.1.tar.gz.sha256" target="_blank" rel="noopener noreferrer">SHA-256 checksum <span aria-hidden="true">↗</span></a></div>
         </article>
 
@@ -92,13 +92,42 @@
           <div class="download-card-top"><span class="small-label">OPTIONAL · APPLE M5</span><span class="download-mark" aria-hidden="true">02</span></div>
           <h3>Prebuilt M5 SDK</h3>
           <p>Headers and a prebuilt library for integrating MoFFT into an application without building the library sources yourself.</p>
-          <dl class="download-facts"><div><dt>Platform</dt><dd>macOS · arm64 · M5</dd></div><div><dt>Requirement</dt><dd>SME2 · FP64 needs F64F64</dd></div><div><dt>Asset size</dt><dd><a href="https://github.com/ruge-zhang/MoFFT/releases/tag/v0.4.0-preview.1" target="_blank" rel="noopener noreferrer">See GitHub Release ↗</a></dd></div></dl>
+          <dl class="download-facts"><div><dt>Platform</dt><dd>macOS · arm64 · M5</dd></div><div><dt>Requirement</dt><dd>SME2 · FP64 needs SME F64F64</dd></div><div><dt>Asset size</dt><dd>2.7 MiB</dd></div></dl>
           <div class="download-actions"><a class="button button-outline" href="https://github.com/ruge-zhang/MoFFT/releases/download/v0.4.0-preview.1/mofft-0.4.0-preview.1-macos-arm64.tar.gz" target="_blank" rel="noopener noreferrer">Download M5 SDK <span aria-hidden="true">↓</span></a><a class="checksum-link" href="https://github.com/ruge-zhang/MoFFT/releases/download/v0.4.0-preview.1/mofft-0.4.0-preview.1-macos-arm64.tar.gz.sha256" target="_blank" rel="noopener noreferrer">SHA-256 checksum <span aria-hidden="true">↗</span></a></div>
           <p class="download-caveat">Preview package for the listed platform; it is not a general macOS binary.</p>
         </article>
       </div>
 
       <div class="release-links" aria-label="Release and project links"><a href="https://github.com/ruge-zhang/MoFFT/releases/tag/v0.4.0-preview.1" target="_blank" rel="noopener noreferrer"><span>Release notes</span><span aria-hidden="true">↗</span></a><a href="#package-installation"><span>Installation guide</span><span aria-hidden="true">↓</span></a><a href="https://github.com/ruge-zhang/MoFFT" target="_blank" rel="noopener noreferrer"><span>Git repository</span><span aria-hidden="true">↗</span></a></div>
+
+      <div id="planning-options" class="workflow-section" aria-labelledby="workflow-title">
+        <span class="small-label">THREE WORKFLOWS · TWO RUNTIME POLICIES</span>
+        <h3 id="workflow-title">Choose how to tune.</h3>
+        <div class="workflow-grid">
+          <article class="workflow-card">
+            <span class="small-label">01 / USE PACKAGED CHOICES</span>
+            <h4>Start without tuning.</h4>
+            <code>MOFFT_FLAG_PRETUNED</code>
+            <p>Use either release package. Reuse an embedded plan when available; otherwise use the analytical planner. No measurement or kernel generation.</p>
+            <a class="inline-link" href="#package-installation">Install the library <span aria-hidden="true">↓</span></a>
+          </article>
+          <article class="workflow-card">
+            <span class="small-label">02 / RETUNE PLANS LOCALLY</span>
+            <h4>Measure linked candidates.</h4>
+            <code>MOFFT_FLAG_MEASURE</code>
+            <p>Use the same package. Time a bounded set of compiled kernel banks, decompositions, and layouts, then reuse or explicitly save the selected plan. No kernel regeneration.</p>
+            <a class="inline-link" href="https://github.com/ruge-zhang/MoFFT/blob/main/docs/BINARY_DISTRIBUTION.md" target="_blank" rel="noopener noreferrer">Planning &amp; saved plans <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="workflow-card">
+            <span class="small-label">03 / REGENERATE KERNELS</span>
+            <h4>Build for your target.</h4>
+            <code>FULL DEVELOPMENT CHECKOUT</code>
+            <p>Calibrate the target, search and generate kernels, search plans, and compile a new library. Requires Python and native build tools; this is not a runtime planning flag.</p>
+            <a class="inline-link" href="https://github.com/ruge-zhang/MoFFT/blob/main/docs/REPRODUCING.md" target="_blank" rel="noopener noreferrer">Regeneration workflow <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <p class="workflow-scope">Preview presets cover lengths 169, 256, and 1024 in FP32 and FP64. Other supported transforms use model fallback unless locally measured. This is not a fully tuned paper-performance distribution or a global-optimum search.</p>
+      </div>
 
       <div id="package-installation" class="package-installation">
         <div class="install-copy"><span class="small-label">SOURCE PACKAGE · INSTALL</span><h3>Build the library.<br>Use the API.</h3><p>On a supported Apple arm64 system, extract the archive, build the included CMake project, run its tests, and install the library.</p><p class="install-requirements"><strong>Requirements</strong><br>AppleClang 21 · CMake · macOS 26.4 · Apple M5 with SME2<br>FP64 execution requires the SME F64F64 feature.</p><a class="inline-link" href="https://github.com/ruge-zhang/MoFFT/releases/tag/v0.4.0-preview.1" target="_blank" rel="noopener noreferrer">Release notes &amp; asset details <span aria-hidden="true">↗</span></a></div>
