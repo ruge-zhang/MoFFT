@@ -4,11 +4,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8f8f3">
-  <meta name="description" content="MoFFT is a matrix-oriented FFT library and kernel compiler for Arm SME/SME2. Explore the project, build from source, and read the research.">
-  <meta property="og:title" content="MoFFT — The FFT. A matrix perspective.">
-  <meta property="og:description" content="A matrix-oriented fast Fourier transform library and kernel compiler for Arm SME/SME2.">
+  <meta name="description" content="MoFFT is an open-source FFT library and kernel compiler for Arm SME/SME2, supporting FP32 and FP64 complex transforms. Find documentation, benchmarks, and research.">
+  <link rel="canonical" href="https://ruge-zhang.github.io/MoFFT/">
+  <link rel="sitemap" type="application/xml" href="./sitemap.xml">
+  <meta property="og:title" content="MoFFT — FFT library and kernel compiler for Arm SME/SME2">
+  <meta property="og:description" content="Open-source matrix-oriented fast Fourier transforms with FP32 and FP64 support. Documentation, performance, and research.">
   <meta property="og:type" content="website">
-  <title>MoFFT — Matrix-oriented fast Fourier transforms</title>
+  <meta property="og:site_name" content="MoFFT">
+  <meta property="og:url" content="https://ruge-zhang.github.io/MoFFT/">
+  <meta property="og:image" content="https://ruge-zhang.github.io/MoFFT/performance.png">
+  <meta property="og:image:alt" content="MoFFT versus FFTW performance on Apple M4 and M5, in single and double precision.">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>MoFFT — FFT library and kernel compiler for Arm SME/SME2</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "MoFFT",
+    "description": "An open-source matrix-oriented FFT library and kernel compiler for Arm SME/SME2, supporting FP32 and FP64 complex transforms.",
+    "url": "https://ruge-zhang.github.io/MoFFT/",
+    "codeRepository": "https://github.com/ruge-zhang/MoFFT",
+    "license": "https://github.com/ruge-zhang/MoFFT/blob/main/LICENSE",
+    "programmingLanguage": ["C", "Python"]
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="stylesheet" href="./styles.css">
   <script src="./app.js" defer></script>
@@ -95,7 +114,7 @@
     <section id="performance" class="section container performance-section" aria-label="Performance"><div class="section-kicker"><span>05 / PERFORMANCE</span><span class="section-rule"></span></div><figure class="performance-figure"><a href="./performance.png" target="_blank" rel="noopener noreferrer" aria-label="Open full-size MoFFT M4 and M5 performance figure"><img src="./performance.png" loading="lazy" decoding="async" alt="Public MoFFT evaluation showing FFT performance on Apple M4 and M5 for single and double precision."></a></figure></section>
 
     <section id="research" class="research-section"><div class="container"><div class="research-heading"><p class="eyebrow">06 / RESEARCH</p><h2>Research,<br>openly implemented.</h2><p>Explore the outer-product formulation of the FFT and the matrix-oriented compiler in these published papers.</p></div><div class="research-papers">
-      <a class="paper-card" id="research-paper-link" href="https://doi.org/10.1109/TPDS.2026.3737077" target="_blank" rel="noopener noreferrer"><span class="paper-label">MOFFT</span><div class="paper-rule"></div><h3>MoFFT: Matrix-Oriented FFT Optimization Leveraging Outer-Product Operations on ARM SME CPUs</h3><p>IEEE Transactions on Parallel and Distributed Systems · 2026</p><div class="paper-bottom"><span>Read the paper</span><span aria-hidden="true">↗</span></div></a>
+      <a class="paper-card" id="research-paper-link" href="https://doi.org/10.1109/TPDS.2026.3737077" target="_blank" rel="noopener noreferrer"><span class="paper-label">MOFFT</span><div class="paper-rule"></div><h3>MoFFT: Matrix-Oriented FFT Optimization Leveraging Outer-Product Operations on ARM SME CPUs</h3><p>IEEE Transactions on Parallel and Distributed Systems · Vol. 37, No. 12, pp. 2659–2675 · December 2026</p><div class="paper-bottom"><span>Read the paper</span><span aria-hidden="true">↗</span></div></a>
       <a class="paper-card" href="https://doi.org/10.1109/IPDPS57955.2024.00088" target="_blank" rel="noopener noreferrer"><span class="paper-label">OPENFFT-SME</span><div class="paper-rule"></div><h3>OpenFFT-SME: An Efficient Outer Product Pattern FFT Library on ARM SME CPUs</h3><p>IEEE International Parallel and Distributed Processing Symposium (IPDPS) · 2024</p><div class="paper-bottom"><span>Read the paper</span><span aria-hidden="true">↗</span></div></a>
     </div></div></section>
 
