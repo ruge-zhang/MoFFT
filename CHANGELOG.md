@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 Preview 1 — 2026-10-20
 
 - Add FFTW-inspired bound-array plan/execute constructors for FP32 and FP64,
   preserving the explicit-buffer C API.
@@ -13,5 +13,6 @@
 - Extend correctness checks to kernel banks, planning policies, stored recipes
   and relocated binary-package consumers.
 
-The binary workflow remains a local functional preview until a quiet-window
-performance run and the relevant release checks are complete.
+Prepared library source and prebuilt M5 SDK packages have functional validation.
+Formal performance tuning and validation on other platforms are outside this
+preview release.

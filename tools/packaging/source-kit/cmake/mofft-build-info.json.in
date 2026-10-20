@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "distribution": "source",
+  "release": "@MOFFT_RELEASE_VERSION@",
+  "build_id": "@MOFFT_BINARY_ID@",
+  "target": "apple-arm64-sme2",
+  "minimum_os": "macOS @CMAKE_OSX_DEPLOYMENT_TARGET@",
+  "kernel_bank_count": 4,
+  "preset_plan_wisdom": {
+    "available": true,
+    "entry_count": @MOFFT_PLAN_WISDOM_ENTRY_COUNT@,
+    "formal": false
+  }
+}
