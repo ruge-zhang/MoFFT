@@ -9,6 +9,8 @@ from .model import rank
 from .patterns import enumerate_candidates
 from .profile import MachineProfile
 from .scheduler import schedule
+from .backends import backend_for_architecture
+from .targets.arm_sme import ARM_SME_512
 
 
 def _radices(value: str) -> tuple[int, ...]:
@@ -24,6 +26,8 @@ def generate_main(argv: list[str] | None = None) -> None:
     parser.add_argument("--profile", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--kernel-wisdom")
+    parser.add_argument("--sme1", action="store_true",
+                        help="use the opt-in Linux 512-bit SME1 port")
     parser.add_argument("--temp-tile-rotation", choices=("auto", "on", "off"),
                         default="auto")
     parser.add_argument("--radices", type=_radices,
@@ -33,7 +37,7 @@ def generate_main(argv: list[str] | None = None) -> None:
     kernel_wisdom = (json.loads(Path(args.kernel_wisdom).read_text())
                       if args.kernel_wisdom else None)
     manifest = emit(MachineProfile.load(args.profile), args.output, radices,
-                    kernel_wisdom, args.temp_tile_rotation)
+                    kernel_wisdom, args.temp_tile_rotation, sme1=args.sme1)
     print(json.dumps({
         # CLI output is often captured in experiment logs.  Avoid recording a
         # developer's absolute workspace path in otherwise shareable output.
@@ -47,6 +51,7 @@ def generate_main(argv: list[str] | None = None) -> None:
 def inspect_main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Inspect MoFFT expression selection")
     parser.add_argument("--profile", required=True)
+    parser.add_argument("--sme1", action="store_true")
     parser.add_argument("--radix", required=True, type=int, choices=RADICES)
     parser.add_argument("--precision", choices=("fp32", "fp64"), default="fp32")
     parser.add_argument("--stage", choices=("first", "other"), default="first")
@@ -55,9 +60,13 @@ def inspect_main(argv: list[str] | None = None) -> None:
                         default="auto")
     args = parser.parse_args(argv)
     profile = MachineProfile.load(args.profile)
+    if args.sme1 and "sme2" in profile.architecture.lower():
+        raise ValueError("SME1 port requires an explicitly labeled SME1 profile")
+    target = (backend_for_architecture(profile.architecture).target(
+        profile, sme1=True) if args.sme1 else ARM_SME_512)
     ranked = rank(enumerate_candidates(args.radix, args.precision,
                                        args.stage, args.direction,
-                                       args.temp_tile_rotation), profile)
+                                       args.temp_tile_rotation, target), profile)
     payload = []
     for candidate, cost in ranked:
         scheduled = schedule(candidate.graph)

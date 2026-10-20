@@ -1,0 +1,93 @@
+{
+  "schema_version": 3,
+  "name": "linux-sme1-512-bootstrap-uncalibrated",
+  "architecture": "aarch64-linux+sme",
+  "streaming_vector_bits": 512,
+  "measured": false,
+  "cost_unit": "normalized-time",
+  "source": "Uncalibrated research-port bootstrap derived from upstream apple-m5-bootstrap.json. Values are inherited model assumptions, not Linux-server hardware measurements or calibration.",
+  "memory_hierarchy": {
+    "cache_line_bytes": 128,
+    "levels": {
+      "l1d": {
+        "capacity_bytes": 131072,
+        "read_bandwidth_bytes_per_cost_unit": 113.4,
+        "write_bandwidth_bytes_per_cost_unit": 113.9,
+        "latency_cost": 4.0,
+        "inferred": true
+      },
+      "l2": {
+        "capacity_bytes": 16777216,
+        "read_bandwidth_bytes_per_cost_unit": 112.7,
+        "write_bandwidth_bytes_per_cost_unit": 73.5,
+        "latency_cost": 16.0,
+        "inferred": true
+      },
+      "dram": {
+        "capacity_bytes": 4611686018427387904,
+        "read_bandwidth_bytes_per_cost_unit": 67.3,
+        "write_bandwidth_bytes_per_cost_unit": 73.5,
+        "latency_cost": 100.0,
+        "inferred": true
+      }
+    }
+  },
+  "instructions": {
+    "fmopa": {
+      "throughput": 4.0,
+      "latency": 1.0,
+      "saturation_ilp": 4,
+      "resource": "matrix",
+      "inferred": true
+    },
+    "sve_add": {
+      "throughput": 0.25,
+      "latency": 4.0,
+      "saturation_ilp": 1,
+      "resource": "vector",
+      "inferred": true
+    },
+    "sve_fmla": {
+      "throughput": 0.25,
+      "latency": 4.0,
+      "saturation_ilp": 1,
+      "resource": "vector",
+      "inferred": true
+    },
+    "sve_load": {
+      "throughput": 1.0,
+      "latency": 4.0,
+      "saturation_ilp": 4,
+      "resource": "load",
+      "inferred": true
+    },
+    "sve_store": {
+      "throughput": 1.0,
+      "latency": 4.0,
+      "saturation_ilp": 4,
+      "resource": "store",
+      "inferred": true
+    },
+    "za_extract": {
+      "throughput": 1.0,
+      "latency": 3.0,
+      "saturation_ilp": 3,
+      "resource": "za-transfer",
+      "inferred": true
+    },
+    "smstart_stop": {
+      "throughput": 0.05,
+      "latency": 20.0,
+      "saturation_ilp": 1,
+      "resource": "streaming-state",
+      "inferred": true
+    }
+  },
+  "measurement_metadata": {
+    "port_id": "mofft_sme_port_01",
+    "upstream_commit": "df783bc16a3bb6c674f01074bb570ff497a40ba7",
+    "inherited_profile": "apple-m5-bootstrap.json",
+    "calibrated_on_target": false,
+    "purpose": "compatibility preparation only; do not describe as tuned baseline"
+  }
+}

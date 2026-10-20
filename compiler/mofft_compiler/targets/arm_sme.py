@@ -11,9 +11,11 @@ from ..mapping import MatrixMapping
 from .base import TargetCapabilities
 
 
-def arm_sme_target(vector_bits: int = 512) -> TargetCapabilities:
+def arm_sme_target(vector_bits: int = 512, *, sme1: bool = False) -> TargetCapabilities:
+    if sme1 and vector_bits != 512:
+        raise ValueError("the SME1 port is restricted to a 512-bit streaming VL")
     return TargetCapabilities(
-        name="arm-sme",
+        name="arm-sme1-port" if sme1 else "arm-sme",
         vector_bits=vector_bits,
         vector_registers=32,
         accumulator_tiles_fp32=4,
@@ -35,6 +37,7 @@ def arm_sme_target(vector_bits: int = 512) -> TargetCapabilities:
             ("load", "sve_load"), ("load2", "sve_load"),
             ("store", "sve_store"), ("store2", "sve_store"),
         ),
+        grouped_vector_ops=not sme1,
     )
 
 

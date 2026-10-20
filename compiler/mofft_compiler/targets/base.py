@@ -17,6 +17,8 @@ class TargetCapabilities:
     matrix_group_widths: tuple[int, ...]
     mappings: tuple[MatrixMapping, ...]
     instruction_model_keys: tuple[tuple[str, str], ...] = ()
+    # Port capability: false forbids SME2 grouped operations in the backend.
+    grouped_vector_ops: bool = True
 
     def lanes(self, precision: str) -> int:
         if precision == "fp32":

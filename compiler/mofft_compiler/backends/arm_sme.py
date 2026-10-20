@@ -31,8 +31,8 @@ class ArmSMEBackend:
     name = "arm-sme"
 
     @staticmethod
-    def target(profile: MachineProfile) -> TargetCapabilities:
-        return arm_sme_target(profile.streaming_vector_bits)
+    def target(profile: MachineProfile, *, sme1: bool = False) -> TargetCapabilities:
+        return arm_sme_target(profile.streaming_vector_bits, sme1=sme1)
 
     @staticmethod
     def types(precision: str) -> ArmSMETypes:
@@ -172,6 +172,8 @@ class ArmSMEBackend:
                     f"{value(node.inputs[1], suffix)}, "
                     f"{value(node.inputs[2], suffix)});"]
         if op == Op.MATRIX_FMA:
+            if not candidate.target.grouped_vector_ops:
+                raise ValueError("SME1 port must not emit SME2 matrix FMA")
             width = int(node.attr("width", "2"))
             matrix_group = int(node.attr("group", "0"))
             tile = int(node.attr("tile", "0"))
@@ -185,6 +187,8 @@ class ArmSMEBackend:
         if op == Op.MATRIX_EXTRACT_H:
             tile = node.attr("tile")
             if node.attr("phase") == "matrix_twiddle":
+                if not candidate.target.grouped_vector_ops:
+                    raise ValueError("SME1 port must not emit grouped ZA reads")
                 width = int(node.attr("width", "2"))
                 packed_type = t.quad if width == 4 else t.pair
                 return [f"{packed_type} {pair(node.id, suffix)} = "
@@ -219,6 +223,8 @@ class ArmSMEBackend:
             suffix: str = "") -> list[str]:
         if kind != "load":
             raise ValueError(f"unknown ARM SME bundle kind {kind}")
+        if not candidate.target.grouped_vector_ops:
+            raise ValueError("SME1 port must not emit grouped vector loads")
         t = self.types(candidate.precision)
         nodes = [candidate.graph.nodes[node_id] for node_id in members]
         packed_type = t.quad if width == 4 else t.pair
@@ -245,6 +251,8 @@ class ArmSMEBackend:
             column_predicate: str = "pg_cols",
             base_name: str = "base") -> list[str]:
         """Use grouped ZA reads for a direct/like-terms row epilogue."""
+        if not candidate.target.grouped_vector_ops:
+            raise ValueError("SME1 port must use the single-row ZA epilogue")
         t = self.types(candidate.precision)
         bits, short = t.bits, t.short
         lines = [

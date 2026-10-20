@@ -24,7 +24,8 @@ class BackendTypes(Protocol):
 class MatrixBackend(Protocol):
     name: str
 
-    def target(self, profile: MachineProfile) -> TargetCapabilities: ...
+    def target(self, profile: MachineProfile, *,
+               sme1: bool = False) -> TargetCapabilities: ...
 
     def types(self, precision: str) -> BackendTypes: ...
 

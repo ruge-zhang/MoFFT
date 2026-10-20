@@ -26,5 +26,9 @@ jobs:
         run: python -m py_compile compiler/mofft_compiler/*.py tools/*.py
       - name: Run compiler tests
         run: python -m unittest discover -s tests -p 'test_compiler.py'
+      - name: Run SME1 compiler regressions
+        run: python -m unittest discover -s tests -p 'test_sme1_port.py'
       - name: Validate repository JSON
         run: python -m json.tool profiles/apple-m5-bootstrap.json >/dev/null
+      - name: Validate Linux SME1 bootstrap JSON
+        run: python -m json.tool profiles/linux-sme1-512-bootstrap.json >/dev/null

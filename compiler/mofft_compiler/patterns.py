@@ -529,7 +529,9 @@ def build_candidate(radix: int, precision: str, stage: str,
     blocks_per_group = min(output_blocks, tile_count // tiles_per_block)
     temp_tile: int | None = None
     num_temp_tiles = 0
-    if stage == "other":
+    # SME1 uses the existing vector complex-twiddle helper, leaving temp_tile
+    # as None. The outer-product butterfly expressions are unchanged.
+    if stage == "other" and target.grouped_vector_ops:
         matrix_blocks = (tile_count - 1) // tiles_per_block
         if matrix_blocks >= 1:
             blocks_per_group = min(output_blocks, matrix_blocks)
@@ -599,7 +601,8 @@ def build_candidate(radix: int, precision: str, stage: str,
         output_block_width=block_width, output_blocks=output_blocks,
         blocks_per_group=blocks_per_group,
         matrix_vg_width=matrix_vg_width,
-        rotate_temp_tiles=stage == "other" and rotate_temp_tiles,
+        rotate_temp_tiles=(stage == "other" and rotate_temp_tiles and
+                           target.grouped_vector_ops),
         mapping=mapping, target=target, emittable=True,
         batch_pipeline_depth=batch_pipeline_depth)
 
@@ -617,6 +620,11 @@ def enumerate_candidates(radix: int, precision: str, stage: str,
     rotations = ((False, True) if stage == "other" and
                  temp_tile_rotation == "auto" else
                  (temp_tile_rotation == "on",))
+    if not target.grouped_vector_ops:
+        # Use the conservative SME1 lowering. Wider group organizations
+        # and temporary ZA rotation are not validated by this port.
+        widths = (2,)
+        rotations = (False,)
     pipeline_depths = ((1, 2) if stage == "other" and
                        precision == "fp64" and radix in (8, 16, 32) else (1,))
     return [build_candidate(

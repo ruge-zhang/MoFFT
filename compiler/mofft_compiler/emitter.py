@@ -107,6 +107,8 @@ def _partition_vg(nodes: list[Node], contiguous,
 def _build_bundles(candidate: Candidate, scheduled: list[ScheduledNode],
                    group: int) -> tuple[dict[int, _Bundle], set[int]]:
     """Prove and form the VG operations that will actually be emitted."""
+    if not candidate.target.grouped_vector_ops:
+        return {}, set()
     position = {item.node.id: index for index, item in enumerate(scheduled)}
     bundles: dict[int, _Bundle] = {}
     suppressed: set[int] = set()
@@ -175,7 +177,7 @@ def _scheduled_body(candidate: Candidate, scheduled: list[ScheduledNode],
     # itself omitted (transposed output uses the vertical epilogue instead).
     vg4_skip: set[int] = set()
     finish_blocks: dict[int, tuple[int, int, int]] = {}
-    if not omit_row_epilogue:
+    if not omit_row_epilogue and candidate.target.grouped_vector_ops:
         for block in range(candidate.blocks_per_group):
             if _row_count(candidate, group, block) == 0:
                 continue
@@ -728,14 +730,16 @@ def _emit_registry(radices: tuple[int, ...],
 def emit(profile: MachineProfile, output: str | Path,
          radices: tuple[int, ...] = RADICES,
          kernel_wisdom: dict | None = None,
-         temp_tile_rotation: str = "auto") -> dict:
+          temp_tile_rotation: str = "auto", *, sme1: bool = False) -> dict:
+    if sme1 and "sme2" in profile.architecture.lower():
+        raise ValueError("SME1 port requires an explicitly labeled SME1 profile")
     output_path = Path(output)
     output_path.mkdir(parents=True, exist_ok=True)
     selected_backend = backend_for_architecture(profile.architecture)
     if selected_backend is not _backend:
         raise ValueError(
             f"{selected_backend.name} requires its own source generator")
-    target = selected_backend.target(profile)
+    target = selected_backend.target(profile, sme1=sme1)
     selections: list[dict] = []
     sources: dict[str, list[str]] = {precision: [] for precision in PRECISIONS}
     declarations: list[str] = []
@@ -1125,6 +1129,8 @@ size_t mofft_generated_cache_line_bytes(void);
         "emitted_kernel_count": len(declarations),
         "selections": selections,
     }
+    if sme1:
+        manifest["sme1_port"] = True
     canonical = json.dumps(manifest, sort_keys=True, separators=(",", ":"))
     manifest["input_sha256"] = sha256(canonical.encode()).hexdigest()
     (output_path / "manifest.json").write_text(

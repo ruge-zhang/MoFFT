@@ -8,8 +8,13 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 
+option(MOFFT_SME1_PORT "Build the opt-in Linux AArch64 SME1 port" OFF)
+set(MOFFT_TOOLS_DEFAULT ON)
+if(MOFFT_SME1_PORT)
+  set(MOFFT_TOOLS_DEFAULT OFF)
+endif()
 option(MOFFT_BUILD_TESTS "Build correctness tests" ON)
-option(MOFFT_BUILD_TOOLS "Build calibration and benchmark tools" ON)
+option(MOFFT_BUILD_TOOLS "Build calibration and benchmark tools" ${MOFFT_TOOLS_DEFAULT})
 option(MOFFT_WITH_FFTW "Enable the FFTW comparison benchmark" OFF)
 option(MOFFT_FUSE_FIRST_TRANSPOSE
        "Let two-stage first kernels store directly in parent layout" ON)
@@ -17,7 +22,11 @@ option(MOFFT_BROADCAST_REPEATED_TWIDDLES
        "Broadcast lane-invariant twiddles in deep plans" ON)
 option(MOFFT_VALIDATE_ALL_CANDIDATES
        "Compile and execute every legal generated-kernel candidate" OFF)
-set(MOFFT_PROFILE "${CMAKE_CURRENT_SOURCE_DIR}/profiles/apple-m5-bootstrap.json"
+set(MOFFT_DEFAULT_PROFILE "${CMAKE_CURRENT_SOURCE_DIR}/profiles/apple-m5-bootstrap.json")
+if(MOFFT_SME1_PORT)
+  set(MOFFT_DEFAULT_PROFILE "${CMAKE_CURRENT_SOURCE_DIR}/profiles/linux-sme1-512-bootstrap.json")
+endif()
+set(MOFFT_PROFILE "${MOFFT_DEFAULT_PROFILE}"
     CACHE FILEPATH "Machine profile used by the kernel compiler")
 set(MOFFT_WISDOM "" CACHE FILEPATH
     "Optional mofft-plan-search JSON compiled into the runtime")
@@ -38,7 +47,16 @@ set(MOFFT_TARGET_PROCESSOR "${CMAKE_SYSTEM_PROCESSOR}")
 if(NOT MOFFT_TARGET_PROCESSOR AND CMAKE_OSX_ARCHITECTURES)
   set(MOFFT_TARGET_PROCESSOR "${CMAKE_OSX_ARCHITECTURES}")
 endif()
-if(NOT APPLE OR NOT MOFFT_TARGET_PROCESSOR MATCHES "^(arm64|aarch64)$")
+if(MOFFT_SME1_PORT)
+  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux" OR
+     NOT MOFFT_TARGET_PROCESSOR MATCHES "^(arm64|aarch64)$")
+    message(FATAL_ERROR "The SME1 port requires Linux AArch64")
+  endif()
+  if(MOFFT_BUILD_TOOLS OR MOFFT_VALIDATE_ALL_CANDIDATES)
+    message(FATAL_ERROR "Apple-specific tools are not part of the SME1 port; use the independent Linux validation harness")
+  endif()
+  set(MOFFT_ISA_ARGS --sme1)
+elseif(NOT APPLE OR NOT MOFFT_TARGET_PROCESSOR MATCHES "^(arm64|aarch64)$")
   message(FATAL_ERROR "MoFFT requires Apple arm64 with SME support")
 endif()
 
@@ -67,6 +85,7 @@ add_custom_command(
           ${Python3_EXECUTABLE} -m mofft_compiler.cli
           --profile "${MOFFT_PROFILE}" --output "${MOFFT_GENERATED_DIR}"
           --temp-tile-rotation "${MOFFT_TEMP_TILE_ROTATION}"
+           ${MOFFT_ISA_ARGS}
           ${MOFFT_KERNEL_WISDOM_ARGS}
   DEPENDS
     "${MOFFT_PROFILE}"
@@ -115,9 +134,14 @@ add_custom_target(mofft_compile_wisdom
   DEPENDS "${MOFFT_WISDOM_C}" "${MOFFT_WISDOM_H}")
 add_dependencies(mofft_compile_wisdom mofft_generate)
 
+set(MOFFT_STREAMING_ENTRY src/streaming_entry.S)
+if(MOFFT_SME1_PORT)
+  # Let the compiler implement AAPCS64 private-ZA/lazy-save entry semantics.
+  set(MOFFT_STREAMING_ENTRY src/streaming_entry_linux.c)
+endif()
 add_library(mofft STATIC
   src/mofft.c
-  src/streaming_entry.S
+  ${MOFFT_STREAMING_ENTRY}
   "${MOFFT_WISDOM_C}"
   "${MOFFT_GENERATED_DIR}/mofft_kernels_fp32.c"
   "${MOFFT_GENERATED_DIR}/mofft_kernels_fp64.c"
@@ -134,11 +158,23 @@ target_compile_options(mofft PRIVATE
 # register saves (`addvl`) in its non-streaming functions, which are illegal
 # on Apple Silicon outside streaming mode. The streaming functions in mofft.c
 # enable SME per-function via `__attribute__((target("sme")))`.
+set(MOFFT_KERNEL_OPTIONS "-march=armv9.2-a+sme+sme2+sme-f64f64;-mno-implicit-sme")
+if(MOFFT_SME1_PORT)
+  set(MOFFT_KERNEL_OPTIONS "-march=armv9.2-a+sme+sme-f64f64")
+  include(CheckCCompilerFlag)
+  check_c_compiler_flag("-mno-implicit-sme" MOFFT_HAS_NO_IMPLICIT_SME)
+  if(MOFFT_HAS_NO_IMPLICIT_SME)
+    list(APPEND MOFFT_KERNEL_OPTIONS "-mno-implicit-sme")
+  endif()
+  target_compile_definitions(mofft PRIVATE MOFFT_SME1_PORT=1)
+  set_source_files_properties(src/streaming_entry_linux.c
+    PROPERTIES COMPILE_OPTIONS "${MOFFT_KERNEL_OPTIONS}")
+endif()
 set_source_files_properties(
   ${MOFFT_GENERATED_DIR}/mofft_kernels_fp32.c
   ${MOFFT_GENERATED_DIR}/mofft_kernels_fp64.c
   ${MOFFT_GENERATED_DIR}/mofft_kernel_registry.c
-  PROPERTIES COMPILE_OPTIONS "-march=armv9.2-a+sme+sme2+sme-f64f64;-mno-implicit-sme")
+  PROPERTIES COMPILE_OPTIONS "${MOFFT_KERNEL_OPTIONS}")
 if(MOFFT_FUSE_FIRST_TRANSPOSE)
   target_compile_definitions(mofft PRIVATE MOFFT_FUSE_FIRST_TRANSPOSE=1)
 endif()
@@ -160,6 +196,15 @@ if(MOFFT_BUILD_TESTS)
             ${Python3_EXECUTABLE} -m unittest discover
             -s "${CMAKE_CURRENT_SOURCE_DIR}/tests" -p "test_compiler.py")
 
+  add_test(NAME mofft_sme1_compiler_tests
+    COMMAND ${CMAKE_COMMAND} -E env
+            "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/compiler"
+            ${Python3_EXECUTABLE} -m unittest discover
+            -s "${CMAKE_CURRENT_SOURCE_DIR}/tests" -p "test_sme1_port.py")
+
+  # The upstream candidate runner uses an Apple assembly entry. Do not
+  # advertise it as a Linux SME1 validation target.
+  if(NOT MOFFT_SME1_PORT)
   add_custom_target(mofft_validate_candidates
     COMMAND ${CMAKE_COMMAND} -E env
             "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/compiler"
@@ -177,6 +222,7 @@ if(MOFFT_BUILD_TESTS)
               "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/compiler"
               ${Python3_EXECUTABLE} -m mofft_compiler.validate
               --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  endif()
   endif()
 endif()
 
@@ -212,6 +258,8 @@ if(MOFFT_BUILD_TOOLS)
   if(MOFFT_BUILD_TESTS AND NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
     add_test(NAME mofft_overall_correctness
       COMMAND mofft_benchmark --correctness --precision both)
+    # The unmodified Apple default retains its original timeout. The SME1
+    # port does not build this Apple-only executable or apply an execution limit.
     set_tests_properties(mofft_overall_correctness PROPERTIES TIMEOUT 600)
   endif()
 
