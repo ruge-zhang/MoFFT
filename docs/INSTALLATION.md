@@ -18,6 +18,23 @@ The source package contains the complete library sources and pre-generated
 kernel C files, rather than the Python-based development toolchain. Consumers
 do not run Python, calibration, or kernel generation to build this package.
 
+## Choose a workflow
+
+1. **Use packaged kernels and choices:** download either release package and use
+   `MOFFT_FLAG_PRETUNED`. Exact embedded cases use their stored choices; other
+   supported transforms use the analytical planner. No measurement or code
+   generation runs on the consumer machine.
+2. **Retune plans on your machine:** use the same package with
+   `MOFFT_FLAG_MEASURE`. This measures the already linked kernels and selects
+   a bank, decomposition and layout. It does not regenerate kernels. Save the
+   selected plan explicitly if it should be reused on later runs.
+3. **Regenerate and retune kernels:** use the
+   [full development checkout](https://github.com/ruge-zhang/MoFFT/tree/v0.4.0-preview.1),
+   not the prepared library source archive. Follow the
+   [calibration, kernel generation and plan-search workflow](REPRODUCING.md).
+   This requires the Python compiler and native build tools. It produces a new
+   library; runtime `MEASURE` alone does not perform this workflow.
+
 ## Build and install
 
 Requirements: Apple M5, macOS 26.4 or newer, Apple Clang 21 with SME/SME2 ACLE
