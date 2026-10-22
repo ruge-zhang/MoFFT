@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "scope": "Opt-in Linux SME1 source workflow; no hardware-validation claim",
+  "normalization": "UTF-8 without BOM, CRLF/CR normalized to LF; other content unchanged",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 434,
+      "lines": 11,
+      "sha256": "1b74136a84456acd57615869853dfdb536ff07c5acc2c69e5c90b976d691d536",
+      "normalized_utf8_lf_sha256": "1b74136a84456acd57615869853dfdb536ff07c5acc2c69e5c90b976d691d536"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 13973,
+      "lines": 314,
+      "sha256": "44d9588d1f05869223a5cbd69f93b0925841879138b80cf917211eec9ffebad4",
+      "normalized_utf8_lf_sha256": "44d9588d1f05869223a5cbd69f93b0925841879138b80cf917211eec9ffebad4"
+    },
+    {
+      "path": "compiler/mofft_compiler/targets/arm_sme.py",
+      "bytes": 1846,
+      "lines": 44,
+      "sha256": "d6aa6d4fe2045f51ab6c070f7bba5a33ea73b7e7eb6728dd24f645dcf6034865",
+      "normalized_utf8_lf_sha256": "d6aa6d4fe2045f51ab6c070f7bba5a33ea73b7e7eb6728dd24f645dcf6034865"
+    },
+    {
+      "path": "tests/test_linux_sme1_workflow.py",
+      "bytes": 4107,
+      "lines": 89,
+      "sha256": "f8642a68e7ece27f19657c90118103fbf67d9ac9ddcf787848cbd4b02a7a20e7",
+      "normalized_utf8_lf_sha256": "f8642a68e7ece27f19657c90118103fbf67d9ac9ddcf787848cbd4b02a7a20e7"
+    },
+    {
+      "path": "tools/linux_sme1/accept_c0.py",
+      "bytes": 5688,
+      "lines": 108,
+      "sha256": "15fd251660fb5dffe884c4f383a1b9abc204c9552743618a14dbf8d03bf6321a",
+      "normalized_utf8_lf_sha256": "15fd251660fb5dffe884c4f383a1b9abc204c9552743618a14dbf8d03bf6321a"
+    },
+    {
+      "path": "tools/linux_sme1/accept_stage.py",
+      "bytes": 10455,
+      "lines": 199,
+      "sha256": "4c9e6999cdffb897784e78cdf12af4dbc34ba2bb6a07a44a4062c4680aa91532",
+      "normalized_utf8_lf_sha256": "4c9e6999cdffb897784e78cdf12af4dbc34ba2bb6a07a44a4062c4680aa91532"
+    },
+    {
+      "path": "tools/linux_sme1/build_stage.py",
+      "bytes": 5736,
+      "lines": 111,
+      "sha256": "0c8d4d9a090ed40b020064e174629097ab5fae29419366d03a829bd8cc892671",
+      "normalized_utf8_lf_sha256": "0c8d4d9a090ed40b020064e174629097ab5fae29419366d03a829bd8cc892671"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/analyze.py",
+      "bytes": 2542,
+      "lines": 44,
+      "sha256": "30c7d21ce6f16b5b104741f832ce41405f045568264ea2c23bb62937c4728332",
+      "normalized_utf8_lf_sha256": "30c7d21ce6f16b5b104741f832ce41405f045568264ea2c23bb62937c4728332"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/cal02_analyze.py",
+      "bytes": 9337,
+      "lines": 105,
+      "sha256": "1bfc1e1fa436277c7e3097740e09da2f11e95ea758d1209cedc6b4b7c7b5c539",
+      "normalized_utf8_lf_sha256": "1bfc1e1fa436277c7e3097740e09da2f11e95ea758d1209cedc6b4b7c7b5c539"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/contract.json",
+      "bytes": 586,
+      "lines": 23,
+      "sha256": "8f38881dc4a40685da07fc1cefa77f25a5f08df1ea6be37afbb05019c2df8a15",
+      "normalized_utf8_lf_sha256": "8f38881dc4a40685da07fc1cefa77f25a5f08df1ea6be37afbb05019c2df8a15"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/driver.c",
+      "bytes": 7087,
+      "lines": 111,
+      "sha256": "162e97f6f18281684582985cbc517a81b5c2edf3b1396d7690dc25452a970307",
+      "normalized_utf8_lf_sha256": "162e97f6f18281684582985cbc517a81b5c2edf3b1396d7690dc25452a970307"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/generate.py",
+      "bytes": 4075,
+      "lines": 70,
+      "sha256": "dac2bcdad6c626ec02d61cedba73c5805fe5c5c1ee5eababafb92ded8b73b29b",
+      "normalized_utf8_lf_sha256": "dac2bcdad6c626ec02d61cedba73c5805fe5c5c1ee5eababafb92ded8b73b29b"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/legacy_driver.c",
+      "bytes": 8013,
+      "lines": 119,
+      "sha256": "ad9bcbe8378da8fb5c5b85a00644eaeaea2bc1a86ebb69f06ae988e2dc93ebb6",
+      "normalized_utf8_lf_sha256": "ad9bcbe8378da8fb5c5b85a00644eaeaea2bc1a86ebb69f06ae988e2dc93ebb6"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/legacy_generate.py",
+      "bytes": 3815,
+      "lines": 54,
+      "sha256": "da823915bedd1e4f1b23c0f549d3eb172f236481d2ca0750edf960053137b812",
+      "normalized_utf8_lf_sha256": "da823915bedd1e4f1b23c0f549d3eb172f236481d2ca0750edf960053137b812"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/mock.py",
+      "bytes": 1629,
+      "lines": 37,
+      "sha256": "5be2c2d218b82bde6a590f699cb3a5a478b16b3bee3767cfd9c36731d22c40ae",
+      "normalized_utf8_lf_sha256": "5be2c2d218b82bde6a590f699cb3a5a478b16b3bee3767cfd9c36731d22c40ae"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/observation.h",
+      "bytes": 2136,
+      "lines": 17,
+      "sha256": "084c7dc4bbc7d5abdcf4b9427d7c91a2288b62dc4a4c97994cb683080f38cc6a",
+      "normalized_utf8_lf_sha256": "084c7dc4bbc7d5abdcf4b9427d7c91a2288b62dc4a4c97994cb683080f38cc6a"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/observation_check.c",
+      "bytes": 672,
+      "lines": 15,
+      "sha256": "eca06dbc1ce47f0de7f98a0e7de50d2d4fa5e5f78524aecbc48c245004d5e138",
+      "normalized_utf8_lf_sha256": "eca06dbc1ce47f0de7f98a0e7de50d2d4fa5e5f78524aecbc48c245004d5e138"
+    },
+    {
+      "path": "tools/linux_sme1/calibration/probe_check.c",
+      "bytes": 2871,
+      "lines": 53,
+      "sha256": "f6a687fc1c0385869c8f58945483defa7c8fe2c4116fcd31e229750371b63d31",
+      "normalized_utf8_lf_sha256": "f6a687fc1c0385869c8f58945483defa7c8fe2c4116fcd31e229750371b63d31"
+    },
+    {
+      "path": "tools/linux_sme1/common.py",
+      "bytes": 2327,
+      "lines": 69,
+      "sha256": "7c2896c42c821a282381e8405598744edd3b2e8e3b7797b79f8bd566eb79571d",
+      "normalized_utf8_lf_sha256": "7c2896c42c821a282381e8405598744edd3b2e8e3b7797b79f8bd566eb79571d"
+    },
+    {
+      "path": "tools/linux_sme1/defer_statistics.py",
+      "bytes": 6096,
+      "lines": 130,
+      "sha256": "481e34fb48df640e035aa63548aa9ab7da39a1243004c4d736940e172ebad838",
+      "normalized_utf8_lf_sha256": "481e34fb48df640e035aa63548aa9ab7da39a1243004c4d736940e172ebad838"
+    },
+    {
+      "path": "tools/linux_sme1/lifecycle.cpp",
+      "bytes": 2985,
+      "lines": 73,
+      "sha256": "53e325d1d5a2e83421f9412f7ce43585b3233f9e08f2ad2af3c2aad82e3d7f7c",
+      "normalized_utf8_lf_sha256": "53e325d1d5a2e83421f9412f7ce43585b3233f9e08f2ad2af3c2aad82e3d7f7c"
+    },
+    {
+      "path": "tools/linux_sme1/overall/derive.py",
+      "bytes": 8414,
+      "lines": 140,
+      "sha256": "0b26bf1fbf7be2a0b13369d596858d585b29209a824b23fdb9e46c2ff262ac09",
+      "normalized_utf8_lf_sha256": "0b26bf1fbf7be2a0b13369d596858d585b29209a824b23fdb9e46c2ff262ac09"
+    },
+    {
+      "path": "tools/linux_sme1/overall/fftw_reference_check.cpp",
+      "bytes": 2151,
+      "lines": 47,
+      "sha256": "b7ed7e8bc6c66221749c0d57772f39ee5df1a319fbcfa429de39144da618a2f2",
+      "normalized_utf8_lf_sha256": "b7ed7e8bc6c66221749c0d57772f39ee5df1a319fbcfa429de39144da618a2f2"
+    },
+    {
+      "path": "tools/linux_sme1/overall/linux_platform.h",
+      "bytes": 2484,
+      "lines": 72,
+      "sha256": "75f47c0dc0d7924ada6a147c9b937432863fa0939318dc91984f2227e5c4c6cb",
+      "normalized_utf8_lf_sha256": "75f47c0dc0d7924ada6a147c9b937432863fa0939318dc91984f2227e5c4c6cb"
+    },
+    {
+      "path": "tools/linux_sme1/overall/mock_mofft.cpp",
+      "bytes": 3191,
+      "lines": 78,
+      "sha256": "61707e8abb81b08cc2019a29eb2aaa93677aff608f8786b882289f67df0a5b77",
+      "normalized_utf8_lf_sha256": "61707e8abb81b08cc2019a29eb2aaa93677aff608f8786b882289f67df0a5b77"
+    },
+    {
+      "path": "tools/linux_sme1/plot_results.py",
+      "bytes": 5122,
+      "lines": 100,
+      "sha256": "a218d14c0f7739bd0b8c84738a9399fde21db1aa19ec69cfe15d2aba0a59ac79",
+      "normalized_utf8_lf_sha256": "a218d14c0f7739bd0b8c84738a9399fde21db1aa19ec69cfe15d2aba0a59ac79"
+    },
+    {
+      "path": "tools/linux_sme1/policy_patch.py",
+      "bytes": 3526,
+      "lines": 88,
+      "sha256": "9b8f3bb4cd605dafc54596cbc6c483a73a87496373adbc0cbd7b4346eacbcba3",
+      "normalized_utf8_lf_sha256": "9b8f3bb4cd605dafc54596cbc6c483a73a87496373adbc0cbd7b4346eacbcba3"
+    },
+    {
+      "path": "tools/linux_sme1/README.md",
+      "bytes": 1601,
+      "lines": 13,
+      "sha256": "0fa86198cf5b674ab6ea4977a01b79fe78496dff6f586d36199fc37969968c33",
+      "normalized_utf8_lf_sha256": "0fa86198cf5b674ab6ea4977a01b79fe78496dff6f586d36199fc37969968c33"
+    },
+    {
+      "path": "tools/linux_sme1/registry_terminators.py",
+      "bytes": 1207,
+      "lines": 31,
+      "sha256": "7d3e69e644c6712d645f8e5aa78897d2f59bdbc0a68ce8bde847c45832a30e19",
+      "normalized_utf8_lf_sha256": "7d3e69e644c6712d645f8e5aa78897d2f59bdbc0a68ce8bde847c45832a30e19"
+    },
+    {
+      "path": "tools/linux_sme1/review_login.py",
+      "bytes": 6043,
+      "lines": 114,
+      "sha256": "ebdb96220e6d2274480d8150dfc399e5667cb9e9101576f2aa7a0e214799f5b3",
+      "normalized_utf8_lf_sha256": "ebdb96220e6d2274480d8150dfc399e5667cb9e9101576f2aa7a0e214799f5b3"
+    },
+    {
+      "path": "tools/linux_sme1/submit.py",
+      "bytes": 600,
+      "lines": 18,
+      "sha256": "8442612e1e276f5792c5163bf1bb0a2f01b05f20a66a80dc2cb6940fd73a628a",
+      "normalized_utf8_lf_sha256": "8442612e1e276f5792c5163bf1bb0a2f01b05f20a66a80dc2cb6940fd73a628a"
+    },
+    {
+      "path": "tools/linux_sme1/target.py",
+      "bytes": 7369,
+      "lines": 158,
+      "sha256": "ed7279a09d10ac9f1ff782e9c4734630ae2dbc3a861b578d67d9c22f0c77dff8",
+      "normalized_utf8_lf_sha256": "ed7279a09d10ac9f1ff782e9c4734630ae2dbc3a861b578d67d9c22f0c77dff8"
+    },
+    {
+      "path": "tools/linux_sme1/tuning/candidate_guard.h",
+      "bytes": 983,
+      "lines": 23,
+      "sha256": "b6a2f41640bc7b63c8d0cabfab6efc5b0c7adb3a264b3300fb20bfca083fdd75",
+      "normalized_utf8_lf_sha256": "b6a2f41640bc7b63c8d0cabfab6efc5b0c7adb3a264b3300fb20bfca083fdd75"
+    },
+    {
+      "path": "tools/linux_sme1/tuning/candidate_prepare.py",
+      "bytes": 6494,
+      "lines": 113,
+      "sha256": "1ffc75f4b406c9264030cef85ba4838020d6c7dd06a990fef1ce455eab988471",
+      "normalized_utf8_lf_sha256": "1ffc75f4b406c9264030cef85ba4838020d6c7dd06a990fef1ce455eab988471"
+    },
+    {
+      "path": "tools/linux_sme1/tuning/candidate_results.py",
+      "bytes": 2954,
+      "lines": 53,
+      "sha256": "d949947555e94394fb869a8f6b758d8828ee1f7dd1907c2e347eaaf0f290fa36",
+      "normalized_utf8_lf_sha256": "d949947555e94394fb869a8f6b758d8828ee1f7dd1907c2e347eaaf0f290fa36"
+    },
+    {
+      "path": "tools/linux_sme1/tuning/derive_plan_search.py",
+      "bytes": 8703,
+      "lines": 135,
+      "sha256": "da36de14c0f47e9863008db8a344bbd31adcecbdc38d16e5b9535b1c7820743a",
+      "normalized_utf8_lf_sha256": "da36de14c0f47e9863008db8a344bbd31adcecbdc38d16e5b9535b1c7820743a"
+    },
+    {
+      "path": "tools/linux_sme1/tuning/mock_plan_api.cpp",
+      "bytes": 1682,
+      "lines": 34,
+      "sha256": "6f7c923a14d3fcff873eed099bc6f8508d9715783659ca835fad9d45199dad23",
+      "normalized_utf8_lf_sha256": "6f7c923a14d3fcff873eed099bc6f8508d9715783659ca835fad9d45199dad23"
+    },
+    {
+      "path": "tools/linux_sme1/workflow.py",
+      "bytes": 17172,
+      "lines": 302,
+      "sha256": "d380c2057c9341258a560eb57d10454a1ea72e89c1867eed07403739b5d12d6e",
+      "normalized_utf8_lf_sha256": "d380c2057c9341258a560eb57d10454a1ea72e89c1867eed07403739b5d12d6e"
+    }
+  ]
+}

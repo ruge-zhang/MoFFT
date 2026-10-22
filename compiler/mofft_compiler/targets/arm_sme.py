@@ -34,8 +34,8 @@ def arm_sme_target(vector_bits: int = 512, *, sme1: bool = False) -> TargetCapab
             ("matrix_extract_horizontal", "za_extract"),
             ("matrix_extract_group", "za_extract_vg{matrix_group_width}"),
             ("matrix_extract_vertical", "za_extract"),
-            ("load", "sve_load"), ("load2", "sve_load"),
-            ("store", "sve_store"), ("store2", "sve_store"),
+            ("load", "sve_load"), ("load2", "sve_load2" if sme1 else "sve_load"),
+            ("store", "sve_store"), ("store2", "sve_store2" if sme1 else "sve_store"),
         ),
         grouped_vector_ops=not sme1,
     )

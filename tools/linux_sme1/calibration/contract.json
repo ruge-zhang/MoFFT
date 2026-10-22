@@ -1,0 +1,23 @@
+{
+  "id": "MOFFT-LINUX-CAL-03",
+  "target": "configured_by_workflow",
+  "blocks": 3,
+  "samples_per_block": 9,
+  "instruction_loops": 200000,
+  "warmup_loops": 2000,
+  "ring_bytes": 8192,
+  "primary_instruction_modes": 72,
+  "diagnostic_instruction_modes": 9,
+  "memory_cases": 24,
+  "layout_cases": 32,
+  "total_cases": 137,
+  "formal_samples": 3699,
+  "warmups": 411,
+  "iqr_ratio_max": 0.15,
+  "block_median_ratio_max": 1.15,
+  "automatic_resubmissions": 0,
+  "runtime_limit": null,
+  "preserved_probe_objects": true,
+  "layout_observation": true,
+  "initial_submission_budget": 1
+}

@@ -20,6 +20,95 @@ a typed target-independent DAG, ranks them with a target profile, schedules the
 selected operations, and lowers them to Arm SME/SME2 ACLE intrinsics. The
 runtime combines the generated radix kernels into complete FFT plans.
 
+## Overall performance on Linux AArch64 SME1
+
+![MoFFT versus FFTW 3.3.11 on a Linux SME1 CPU: four panels show FP64 and FP32 C2C execution throughput for powers of two and non-powers](assets/overall-lingsheng-linux.png)
+
+Single-thread, forward, out-of-place C2C execution on the Lingsheng Linux
+platform. Planning, input preparation,
+warmup and destruction are outside the timer; MoFFT execution-status checks
+remain inside. This measures FFT execution, not an application pipeline.
+
+| Test environment | Configuration |
+|---|---|
+| CPU | AArch64, MIDR `0x00000000480fd220`; 608 logical CPUs visible to Linux |
+| Cache | Per measured CPU: 32 KiB L1 data, 32 KiB L1 instruction, 768 KiB L2; 64-byte cache line |
+| Frequency | `userspace` governor; approximately 1.55 GHz at the before/after observations |
+| Vector support | SVE and SME vector lengths: 64 bytes (512 bits); opt-in SME1 path |
+| OS | Linux `5.10.0-285.6.v2403.ky10p.aarch64` |
+| Toolchain | BiSheng Enterprise 5.2.0 / Clang 19.1.7; CMake 3.28.2; Python 3.12.7 |
+| Placement | One thread, pinned to CPU0, whole-machine exclusive; 1 CPU / 4096 MB requested |
+| FFTW baseline | FFTW 3.3.11, static, `-O3 -fPIC`; FP32 with NEON, FP64 with NEON disabled; no OpenMP or MPI |
+| MoFFT tuning | CPU-specific measured profile, kernel wisdom and full plan search; final-library correctness accepted before timing |
+
+The plot uses `5*N*log2(N)/median_seconds/1e9` GFLOP/s. Each library/length/
+precision group retains all 30 batches, with the first library alternating
+between batches. Error bars invert the original per-library 95% median
+bootstrap intervals (2,000 MT19937_64 resamples); they are not paired speedup
+intervals. All 108 groups passed the unchanged 5% coefficient-of-variation
+gate (maximum 2.345843%). The 26 displayed lengths per precision were fixed
+in advance. An additional accepted length, `N=144`, remains in the included
+data but is not plotted.
+
+Across all 27 accepted lengths per precision, FFTW median time divided by
+MoFFT median time ranges from **2.72 to 11.08** for FP32 and **2.27 to 5.09**
+for FP64. These ranges describe this fixed FFTW build and measured CPU;
+they are not a claim about every FFTW configuration or SME2 hardware.
+
+### Replot the accepted Linux results
+
+The [included results](benchmarks/results/lingsheng-linux-reference.json)
+retain all 3,240 timing samples and the original frozen statistics. The
+[plot table](benchmarks/results/lingsheng-linux-reference-figure.csv) and
+[SHA256 manifest](benchmarks/results/lingsheng-linux-reference.manifest.json)
+allow the image and its values to be checked. With Python 3.10 or newer,
+run from the MoFFT repository root:
+
+```sh
+python3 benchmarks/plot_linux_overall.py --check-only
+```
+
+With Matplotlib installed (validated with 3.9.2), run from the same directory:
+
+```sh
+python3 benchmarks/plot_linux_overall.py --output build/figures/linux-reference
+```
+
+This writes PNG, SVG, PDF, CSV and plotting provenance to a new directory;
+existing output directories are refused. It redraws accepted data without
+executing FFTs or rerunning statistics. The README image is an exact copy
+of the accepted original PNG.
+
+### Repeating the target measurement
+
+The complete opt-in [Linux/Donau workflow](docs/linux-sme1-workflow.md) is
+included in `tools/linux_sme1`: source-built calibration probes, all 1,076
+SME1 candidates, kernel wisdom, full plan search, final correctness and
+lifecycle checks, raw timing capture, login acceptance, statistics and plots.
+It also includes the SME1-only load/store cost-key correction and generated
+registry statement correction used by the measured build based on `006dd05`.
+
+With Python 3.12 or newer, run from the repository root to inspect its stages:
+
+```sh
+python3 tools/linux_sme1/workflow.py --help
+```
+
+Follow the [from-source instructions](docs/linux-sme1-workflow.md) to build
+FFTW 3.3.11 and a fresh workspace, then run **calibration → acceptance →
+search → acceptance → final build/check → acceptance → capture → acceptance
+→ plot**. Preparation and analysis run on login; target instruction execution
+and timing run on the explicitly selected compute CPU. The tool never submits
+or retries jobs and sets no execution deadline. Rejected raw data are retained.
+
+The [measurement notes](docs/linux-sme1-benchmark.md) record the accepted measurement's
+environment and artifact identities. Fresh runs recalibrate the actual CPU,
+system, vector length and toolchain; old wisdom is not silently rebound to
+changed source digests. The included image remains the accepted historical
+measurement, not a new run of the packaged workflow. Default SME2 generation
+and the original Apple workflow remain separate; SME2 hardware validation
+still requires an SME2 device.
+
 ## Overall performance on Apple M4 and M5
 
 ![MoFFT versus FFTW 3.3.11 on Apple M4 and M5](assets/overall-m4-m5.png)

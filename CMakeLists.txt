@@ -110,6 +110,17 @@ add_custom_command(
 
 add_custom_target(mofft_generate DEPENDS ${MOFFT_GENERATED})
 
+if(MOFFT_SME1_PORT)
+  # Syntax-only Linux locality-dispatch fix. The default SME2 generator stays unchanged.
+  add_custom_command(
+    OUTPUT "${MOFFT_GENERATED_DIR}/mofft_generated_kernels.h"
+    APPEND
+    COMMAND ${Python3_EXECUTABLE}
+            "${CMAKE_CURRENT_SOURCE_DIR}/tools/linux_sme1/registry_terminators.py"
+            "${MOFFT_GENERATED_DIR}/mofft_kernel_registry.c"
+    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tools/linux_sme1/registry_terminators.py")
+endif()
+
 set(MOFFT_WISDOM_C "${MOFFT_GENERATED_DIR}/mofft_generated_wisdom.c")
 set(MOFFT_WISDOM_H "${MOFFT_GENERATED_DIR}/mofft_generated_wisdom.h")
 set(MOFFT_WISDOM_ARGS)

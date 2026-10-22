@@ -1,0 +1,43 @@
+{
+  "accepted": true,
+  "source_base_commit": "006dd058570b460c22c0e6b43b57705a2615422b",
+  "scope": "Accepted historical CPU benchmark and complete opt-in Linux source workflow; new target measurements require fresh qualification",
+  "source_sha256": {
+    "P_capture/measurements.json": "d030b2bafefe9f2a60b3e8727838c034d562c4f5403dfbf0670e85354159c6f0",
+    "P_acceptance/frozen_summary.json": "4f7f3379ab4384d33464354884edc4aea09181234049812c4e5e0af5abc8d9d9",
+    "P_acceptance/completion.json": "426fdd1f7adb9570ce302fe40c94ee7c9154549ea00995e83aa2dbbc4e5f9b65",
+    "figures/overall_linux.png": "f54591a15a0fcd73df971e9f2cb42c644dfca99f585864463d871bee813be051",
+    "figures/figure_data.csv": "02acf223b560e2ea211fe90ba24974e00c5c18dfa04de7b4f9a6f62a004c9ec5"
+  },
+  "files": {
+    "README.md": {
+      "bytes": 19222,
+      "sha256": "bb7fef29887e54fb792f678ef9bac58921b9454bd2307407948f8a1dd5cacf6e"
+    },
+    "assets/overall-lingsheng-linux.png": {
+      "bytes": 246958,
+      "sha256": "f54591a15a0fcd73df971e9f2cb42c644dfca99f585864463d871bee813be051"
+    },
+    "docs/linux-sme1-benchmark.md": {
+      "bytes": 5621,
+      "sha256": "6fda13b636a72009f529d4f54fe089f083ef63d2414b1bebb33e9c04cd060d75"
+    },
+    "benchmarks/plot_linux_overall.py": {
+      "bytes": 7367,
+      "sha256": "78089b3181c8b700b843a5d9812a4538a22a83bd46a8a284986d2c9102d15a1c"
+    },
+    "benchmarks/results/lingsheng-linux-reference.json": {
+      "bytes": 147717,
+      "sha256": "90c72444351f8fd692d02706e1d741a68e13146fb6f5227500a80ff48d6eac2f"
+    },
+    "benchmarks/results/lingsheng-linux-reference-figure.csv": {
+      "bytes": 7867,
+      "sha256": "02acf223b560e2ea211fe90ba24974e00c5c18dfa04de7b4f9a6f62a004c9ec5"
+    },
+    ".gitignore": {
+      "bytes": 517,
+      "sha256": "58ede72fe0504e1de1ba5185387edcec4b7ba2e3f7dab26f4813797bec947ebf"
+    }
+  },
+  "run_id": "lingsheng-linux-512"
+}

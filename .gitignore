@@ -17,3 +17,10 @@
 /*-profile.json
 /*-wisdom.json
 /*-overall.json
+
+# Accepted Linux reference data; other generated benchmark results stay ignored.
+!/benchmarks/results/
+/benchmarks/results/*
+!/benchmarks/results/lingsheng-linux-reference.json
+!/benchmarks/results/lingsheng-linux-reference-figure.csv
+!/benchmarks/results/lingsheng-linux-reference.manifest.json
